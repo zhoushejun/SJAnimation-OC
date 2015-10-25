@@ -101,6 +101,7 @@ CGFloat iconHeight = 200.0f;
     iconLayer.borderColor = [UIColor orangeColor].CGColor;
     iconLayer.borderWidth = 2.f;
     iconLayer.delegate = self;
+    iconLayer.transform = CATransform3DMakeRotation(M_PI, 1, 0, 0);
     [iconLayer setNeedsDisplay];//调用图层setNeedDisplay,否则代理方法不会被调
 
     [layerShadow addSublayer:iconLayer];
@@ -112,8 +113,8 @@ CGFloat iconHeight = 200.0f;
     CGContextSaveGState(ctx);
     
     //图形上下文形变，解决图片倒立的问题
-    CGContextScaleCTM(ctx, 1, -1);
-    CGContextTranslateCTM(ctx, 0, -iconHeight);
+//    CGContextScaleCTM(ctx, 1, -1);
+//    CGContextTranslateCTM(ctx, 0, -iconHeight);
     
     UIImage *image = [UIImage imageNamed:@"IMG_0508"];
     CGContextDrawImage(ctx, CGRectMake(0, 0, iconHeight, iconHeight), image.CGImage);//注意这个位置是相对于图层而言的不是屏幕
