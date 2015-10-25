@@ -13,6 +13,8 @@
 		CF3689D61BDCB9F7004FFE66 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CF3689D41BDCB9F7004FFE66 /* Main.storyboard */; };
 		CF3689D81BDCB9F7004FFE66 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CF3689D71BDCB9F7004FFE66 /* Assets.xcassets */; };
 		CF3689DB1BDCB9F7004FFE66 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CF3689D91BDCB9F7004FFE66 /* LaunchScreen.storyboard */; };
+		CF3689E41BDD0E93004FFE66 /* SJLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = CF3689E31BDD0E93004FFE66 /* SJLayer.m */; settings = {ASSET_TAGS = (); }; };
+		CF3689E71BDD13C0004FFE66 /* SJView.m in Sources */ = {isa = PBXBuildFile; fileRef = CF3689E61BDD13C0004FFE66 /* SJView.m */; settings = {ASSET_TAGS = (); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -26,6 +28,10 @@
 		CF3689D71BDCB9F7004FFE66 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		CF3689DA1BDCB9F7004FFE66 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		CF3689DC1BDCB9F7004FFE66 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		CF3689E21BDD0E93004FFE66 /* SJLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SJLayer.h; sourceTree = "<group>"; };
+		CF3689E31BDD0E93004FFE66 /* SJLayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SJLayer.m; sourceTree = "<group>"; };
+		CF3689E51BDD13C0004FFE66 /* SJView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SJView.h; sourceTree = "<group>"; };
+		CF3689E61BDD13C0004FFE66 /* SJView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SJView.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -62,6 +68,10 @@
 				CF3689CF1BDCB9F7004FFE66 /* AppDelegate.m */,
 				CF3689D11BDCB9F7004FFE66 /* ViewController.h */,
 				CF3689D21BDCB9F7004FFE66 /* ViewController.m */,
+				CF3689E21BDD0E93004FFE66 /* SJLayer.h */,
+				CF3689E31BDD0E93004FFE66 /* SJLayer.m */,
+				CF3689E51BDD13C0004FFE66 /* SJView.h */,
+				CF3689E61BDD13C0004FFE66 /* SJView.m */,
 				CF3689D41BDCB9F7004FFE66 /* Main.storyboard */,
 				CF3689D71BDCB9F7004FFE66 /* Assets.xcassets */,
 				CF3689D91BDCB9F7004FFE66 /* LaunchScreen.storyboard */,
@@ -151,7 +161,9 @@
 			files = (
 				CF3689D31BDCB9F7004FFE66 /* ViewController.m in Sources */,
 				CF3689D01BDCB9F7004FFE66 /* AppDelegate.m in Sources */,
+				CF3689E41BDD0E93004FFE66 /* SJLayer.m in Sources */,
 				CF3689CD1BDCB9F7004FFE66 /* main.m in Sources */,
+				CF3689E71BDD13C0004FFE66 /* SJView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

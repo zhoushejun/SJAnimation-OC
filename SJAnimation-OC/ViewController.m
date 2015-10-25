@@ -7,6 +7,7 @@
 //
 
 #import "ViewController.h"
+#import "SJView.h"
 
 /** @name 获取屏幕 宽度、高度 及 状态栏 高度 */
 // @{
@@ -25,7 +26,10 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view, typically from a nib.
 //    [self drawCustomLayer];
-    [self drawIconLayer];
+//    [self drawIconLayer];
+    SJView *sjView = [[SJView alloc] initWithFrame:CGRectMake(100, 100, 200, 200)];
+    sjView.backgroundColor = [UIColor grayColor];
+    [self.view addSubview:sjView];
 }
 
 - (void)didReceiveMemoryWarning {
