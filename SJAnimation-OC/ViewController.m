@@ -26,19 +26,16 @@
     // Dispose of any resources that can be recreated.
 }
 
--(void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event{
+- (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event {
     UITouch *touch=[touches anyObject];
     CALayer *layer=[self.view.layer.sublayers lastObject];
-    CGFloat width=layer.bounds.size.width;
-    if (width==40) {
-        width=40*4;
-    }else{
-        width=40;
-    }
-    layer.bounds=CGRectMake(0, 0, width, width);
     layer.position=[touch locationInView:self.view];
-    layer.cornerRadius=width/2;
-    layer.hidden = NO;
+}
+
+-(void)touchesMoved:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event{
+    UITouch *touch=[touches anyObject];
+    CALayer *layer=[self.view.layer.sublayers lastObject];
+    layer.position=[touch locationInView:self.view];
 }
 
 - (IBAction)tappedButtonAction:(id)sender {
@@ -53,7 +50,7 @@
 }
 
 - (void)drawCustomLayer {
-    CGFloat width = 40.0f;
+    CGFloat width = 60.0f;
     CGSize size = [UIScreen mainScreen].bounds.size;
     CALayer *subLayer = [[CALayer alloc] init];//创建子layer
     subLayer.backgroundColor = [UIColor orangeColor].CGColor;//设置背景颜色,由于QuartzCore是跨平台框架，无法直接使用UIColor
