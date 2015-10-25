@@ -100,11 +100,13 @@ CGFloat iconHeight = 200.0f;
     iconLayer.masksToBounds = YES;
     iconLayer.borderColor = [UIColor orangeColor].CGColor;
     iconLayer.borderWidth = 2.f;
-//    iconLayer.delegate = self;
+    iconLayer.delegate = self;
 //    iconLayer.transform = CATransform3DMakeRotation(M_PI, 1, 0, 0);
-    UIImage *image = [UIImage imageNamed:@"IMG_0508"];
-    [iconLayer setContents:(id)image.CGImage];
-//    [iconLayer setNeedsDisplay];//调用图层setNeedDisplay,否则代理方法不会被调
+//    UIImage *image = [UIImage imageNamed:@"IMG_0508"];
+//    [iconLayer setContents:(id)image.CGImage];
+    [iconLayer setValue:@M_PI forKeyPath:@"transform.rotation.x"];
+
+    [iconLayer setNeedsDisplay];//调用图层setNeedDisplay,否则代理方法不会被调
 
     [layerShadow addSublayer:iconLayer];
     [self.view.layer addSublayer:layerShadow];
