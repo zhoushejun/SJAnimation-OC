@@ -74,17 +74,37 @@
 CGFloat iconHeight = 200.0f;
 /** 在根图层上添加一个图像图层 */
 - (void)drawIconLayer {
+    
+    CGRect bounds = CGRectMake(0, 0, iconHeight, iconHeight);
+    CGPoint position = CGPointMake(SCREEN_WIDTH/2.0, 150);
+    CGFloat cornerRadius = iconHeight/2.0;
+    CGFloat borderWidth = 2;
+    
+    //阴影图层，将图像图层添加到阴影图层，再将阴影图层添加到根图层，这样移动阴影图层时图像图层也会一起移动
+    CALayer *layerShadow = [[CALayer alloc] init];
+    layerShadow.bounds = bounds;
+    layerShadow.position = position;
+    layerShadow.cornerRadius = cornerRadius;
+    layerShadow.shadowColor = [UIColor grayColor].CGColor;
+    layerShadow.shadowOffset = CGSizeMake(2, 1);
+    layerShadow.shadowOpacity = 1;
+    layerShadow.borderColor = [UIColor whiteColor].CGColor;
+    layerShadow.borderWidth = borderWidth;
+    
+    //图像图层
     CALayer *iconLayer = [[CALayer alloc] init];//自定义图层
-    iconLayer.bounds = CGRectMake(0, 0, iconHeight, iconHeight);
-    iconLayer.position = CGPointMake(SCREEN_WIDTH/2.0, 150);
+    iconLayer.bounds = bounds;
+    iconLayer.position = CGPointMake(iconHeight/2, iconHeight/2);
     iconLayer.backgroundColor = [UIColor orangeColor].CGColor;
-    iconLayer.cornerRadius = iconHeight/2.0f;
+    iconLayer.cornerRadius = cornerRadius;
     iconLayer.masksToBounds = YES;
     iconLayer.borderColor = [UIColor orangeColor].CGColor;
     iconLayer.borderWidth = 2.f;
     iconLayer.delegate = self;
-    [self.view.layer addSublayer:iconLayer];
-    [iconLayer setNeedsDisplay];    //调用图层setNeedDisplay,否则代理方法不会被调
+    [iconLayer setNeedsDisplay];//调用图层setNeedDisplay,否则代理方法不会被调
+
+    [layerShadow addSublayer:iconLayer];
+    [self.view.layer addSublayer:layerShadow];
 }
 
 #pragma mark - 绘制图形、图像到图层，注意参数中的ctx是图层的图形上下文，其中绘图位置也是相对图层而言的
