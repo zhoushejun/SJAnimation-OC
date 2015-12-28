@@ -18,6 +18,8 @@
 @interface ViewController ()
 
 @property (weak, nonatomic) IBOutlet UIView *basicView;
+@property (nonatomic, strong) CALayer *caLayer;
+
 @end
 
 @implementation ViewController
@@ -27,9 +29,32 @@
     // Do any additional setup after loading the view, typically from a nib.
 //    [self drawCustomLayer];
 //    [self drawIconLayer];
+    /*
     SJView *sjView = [[SJView alloc] initWithFrame:CGRectMake(100, 100, 200, 200)];
     sjView.backgroundColor = [UIColor grayColor];
     [self.view addSubview:sjView];
+     */
+    /*
+    UIImage *image = [UIImage imageNamed:@"IMG_0508"];
+    UIImageView *imageView = [[UIImageView alloc] init];
+    imageView.image = image;
+    imageView.frame = CGRectMake(120, 140, 80, 80);
+    [self.view addSubview:imageView];
+    
+    //两秒后开始一个持续一分钟的动画
+    [UIView animateWithDuration:1 delay:2 options:UIViewAnimationOptionBeginFromCurrentState animations:^{
+        imageView.frame=CGRectMake(80, 100, 160, 160);
+    } completion:nil];
+     */
+    
+    _caLayer = [[CALayer alloc] init];
+    _caLayer.bounds = CGRectMake(0, 0, 60, 60);
+    _caLayer.position = CGPointMake(100, 100);
+    _caLayer.anchorPoint = CGPointMake(0.5, 0.6);
+    _caLayer.contents = (id)[UIImage imageNamed:@"IMG_0508"].CGImage;
+    [self.view.layer addSublayer:_caLayer];
+    
+    [self translationAnimation];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -39,14 +64,95 @@
 
 - (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event {
     UITouch *touch=[touches anyObject];
-    CALayer *layer=[self.view.layer.sublayers lastObject];
-    layer.position=[touch locationInView:self.view];
+//    CALayer *layer=[self.view.layer.sublayers lastObject];
+//    layer.position=[touch locationInView:self.view];
+    
+    CAAnimation *annimation = [_caLayer animationForKey:@"KCBasicAnimation_Translation"];
+    if (annimation) {
+        if (0 == _caLayer.speed) {
+            [self animationResume];
+        }else {
+            [self animationPause];
+        }
+    }else {
+        
+        [self translationAnimation:[touch locationInView:self.view]];
+        [self rotationAnimation];
+    }
+}
+
+- (void)animationResume {
+    CFTimeInterval beginTime = CACurrentMediaTime() - _caLayer.timeOffset;
+    _caLayer.timeOffset = 0;
+    _caLayer.beginTime = beginTime;
+    _caLayer.speed = 1.0;
+}
+
+- (void)animationPause {
+    CFTimeInterval interval = [_caLayer convertTime:CACurrentMediaTime() fromLayer:nil];
+    [_caLayer setTimeOffset:interval];
+    _caLayer.speed = 0;
+}
+
+- (void)rotationAnimation {
+    CABasicAnimation *basicAnimation = [CABasicAnimation animationWithKeyPath:@"transform.rotation.z"];
+    basicAnimation.toValue = [NSNumber numberWithFloat:M_PI_2*3];
+    basicAnimation.duration = 6.0;
+    basicAnimation.autoreverses = YES;
+    basicAnimation.repeatCount = HUGE_VALF;//设置无限循环
+    [_caLayer addAnimation:basicAnimation forKey:@"KCBasicAnimation_Rotation"];
+}
+
+- (void)translationAnimation:(CGPoint)location {
+    CABasicAnimation *basicAnimation = [CABasicAnimation animationWithKeyPath:@"position"];
+    basicAnimation.toValue = [NSValue valueWithCGPoint:location];
+    basicAnimation.duration = 5.0;
+    basicAnimation.removedOnCompletion = NO;
+    basicAnimation.delegate = self;
+    [basicAnimation setValue:[NSValue valueWithCGPoint:location] forKey:@"KCBasicAnimationLocation"];
+    [_caLayer addAnimation:basicAnimation forKey:@"KCBasicAnimation_Translation"];
+}
+
+- (void)translationAnimation {
+//    NSValue *key1 = [NSValue valueWithCGPoint:_caLayer.position];
+//    NSValue *key2 = [NSValue valueWithCGPoint:CGPointMake(80, 220)];
+//    NSValue *key3 = [NSValue valueWithCGPoint:CGPointMake(45, 300)];
+//    NSValue *key4 = [NSValue valueWithCGPoint:CGPointMake(55, 400)];
+//    NSArray *values = @[key1, key2, key3, key4];
+    
+    //绘制贝塞尔曲线
+    CGPathRef path = CGPathCreateMutable();
+    CGPathMoveToPoint(path, NULL, _caLayer.position.x, _caLayer.position.y);//移动到起始点
+    CGPathAddCurveToPoint(path, NULL, 160, 280, -30, 300, 55, 400);//绘制二次贝塞尔曲线
+    
+    
+    CAKeyframeAnimation *keyframeAnimation = [CAKeyframeAnimation animationWithKeyPath:@"position"];
+//    keyframeAnimation.values = values;
+    keyframeAnimation.duration = 8.0;
+    keyframeAnimation.path=path;//设置path属性
+
+    keyframeAnimation.beginTime = CACurrentMediaTime();
+    [_caLayer addAnimation:keyframeAnimation forKey:@"KCKeyframeAnimation_Position"];
+    CGPathRelease(path);//释放路径对象
+
+}
+
+- (void)animationDidStart:(CAAnimation *)anim {
+    
+}
+
+- (void)animationDidStop:(CAAnimation *)anim finished:(BOOL)flag {
+    [CATransaction begin];
+    [CATransaction setDisableActions:YES];
+    _caLayer.position = [[anim valueForKey:@"KCBasicAnimationLocation"] CGPointValue];
+    [CATransaction commit];
+    [self animationPause];
 }
 
 -(void)touchesMoved:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event{
-    UITouch *touch=[touches anyObject];
-    CALayer *layer=[self.view.layer.sublayers lastObject];
-    layer.position=[touch locationInView:self.view];
+//    UITouch *touch=[touches anyObject];
+//    CALayer *layer=[self.view.layer.sublayers lastObject];
+//    layer.position=[touch locationInView:self.view];
 }
 
 - (IBAction)tappedButtonAction:(id)sender {
